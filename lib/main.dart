@@ -1,15 +1,21 @@
 import 'package:flutter/material.dart';
+import 'package:todo_app/home/home_screen.dart';
+import 'package:todo_app/my_theme.dart';
 
 void main() {
-  runApp(const MyApp());
+  runApp(MyApp());
 }
 
 class MyApp extends StatelessWidget {
-  const MyApp({Key? key}) : super(key: key);
-
-  // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
-    return MaterialApp();
+    return MaterialApp(
+      theme: MyTheme.lightTheme,
+      routes: {
+        HomeScreen.RouteName: (_) => HomeScreen(),
+        HomeScreen.RouteName: (_) => HomeScreen()
+      },
+      initialRoute: HomeScreen.RouteName,
+    );
   }
 }
