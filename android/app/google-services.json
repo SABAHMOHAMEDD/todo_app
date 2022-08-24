@@ -1,6 +1,7 @@
 {
   "project_info": {
     "project_number": "340836474169",
+    "firebase_url": "https://todo-f88ac-default-rtdb.firebaseio.com",
     "project_id": "todo-f88ac",
     "storage_bucket": "todo-f88ac.appspot.com"
   },
@@ -29,6 +30,13 @@
             {
               "client_id": "340836474169-5tinh2616b7eav3kqlhpf7v5hqfhi380.apps.googleusercontent.com",
               "client_type": 3
+            },
+            {
+              "client_id": "340836474169-uo0a6u0knpobsfgt4k0emq5onbo76ims.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.example.todoApp"
+              }
             }
           ]
         }

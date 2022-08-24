@@ -36,9 +36,9 @@ dependencies:
   cupertino_icons: ^1.0.2
   animated_bottom_navigation_bar: ^1.0.1
   calendar_timeline: ^1.0.5
-  firebase_core: ^1.20.1
   cloud_firestore: ^3.4.4
   flutter_slidable: ^2.0.0
+  firebase_core: ^1.21.0
 
 dev_dependencies:
   flutter_test:
@@ -63,8 +63,8 @@ flutter:
   uses-material-design: true
 
   # To add assets to your application, add an assets section, like this:
-  assets:
-    - assets/images
+  #assets:
+  #  - assets/images
 
   #   - images/a_dot_ham.jpeg
 

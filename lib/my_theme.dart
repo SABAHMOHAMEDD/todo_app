@@ -16,6 +16,10 @@ class MyTheme {
 
       primaryColor: primarylight,
       scaffoldBackgroundColor: backgroundlight,
+      // bottomSheetTheme: BottomSheetThemeData(
+      //
+      //   backgroundColor: backgroundlight
+      // ),
       // scaffoldBackgroundColor: primarylight,
       appBarTheme: AppBarTheme(
           color: primarylight,
@@ -26,6 +30,13 @@ class MyTheme {
             fontSize: 24,
             color: primarylight,
           ),
+          titleSmall: TextStyle(
+              fontSize: 18, color: primarylight, fontWeight: FontWeight.normal),
+          titleLarge: TextStyle(
+              //whole bottom sheet add new task
+              fontSize: 18,
+              color: Colors.black,
+              fontWeight: FontWeight.bold),
           bodySmall: TextStyle(
             fontSize: 12,
             color: Colors.black,
@@ -40,13 +51,19 @@ class MyTheme {
           color: Colors.brown,
           titleTextStyle: TextStyle(fontSize: 22, fontWeight: FontWeight.bold)),
       textTheme: TextTheme(
-          bodyText1: TextStyle(
-            fontWeight: FontWeight.bold,
-            fontSize: 24,
-            color: primarylight,
-          ),
-          bodyText2: TextStyle(
-            fontSize: 12,
-            color: primarylight,
-          )));
+        bodyText1: TextStyle(
+          fontWeight: FontWeight.bold,
+          fontSize: 24,
+          color: primarylight,
+        ),
+        bodyText2: TextStyle(
+          fontSize: 12,
+          color: primarylight,
+        ),
+        titleLarge: TextStyle(
+            //add new task
+            fontSize: 18,
+            color: Colors.black,
+            fontWeight: FontWeight.bold),
+      ));
 }
