@@ -3,6 +3,8 @@ import 'package:flutter/material.dart';
 import 'package:todo_app/settings/settings_tab.dart';
 import 'package:todo_app/tasks_list/tasks_list_tab.dart';
 
+import 'add_task_bottom_sheet.dart';
+
 class HomeScreen extends StatefulWidget {
   static const String RouteName = 'test';
 
@@ -20,12 +22,14 @@ class _HomeScreenState extends State<HomeScreen> {
     return Scaffold(
         appBar: AppBar(
           title: Text(
-            'ToDo App',
+            selectedIndex == 0 ? 'To Do List' : 'Settings',
           ),
         ),
         floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
         floatingActionButton: FloatingActionButton(
-          onPressed: () {},
+          onPressed: () {
+            openBottomSheet(context);
+          },
           child: Icon(Icons.add),
           backgroundColor: Theme.of(context).primaryColor,
 
@@ -69,4 +73,13 @@ class _HomeScreenState extends State<HomeScreen> {
 
   List<IconData> iconlist = [Icons.list, Icons.settings];
   List<Widget> tabs = [TaskTab(), SettingsTab()];
+
+  void openBottomSheet(context) {
+    showModalBottomSheet(
+        context: context,
+        builder: (buildercontext) {
+          return AddTaskBottomSheet();
+        },
+        isScrollControlled: true);
+  }
 }
