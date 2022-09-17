@@ -1,6 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'package:todo_app/database/my_database.dart';
 import 'package:todo_app/database/task.dart';
+import 'package:todo_app/date_utils.dart';
+import 'package:todo_app/dialuge_utils.dart';
+import 'package:todo_app/my_theme.dart';
+import 'package:todo_app/provider/app_provider.dart';
 
 class AddTaskBottomSheet extends StatefulWidget {
   @override
@@ -11,10 +16,13 @@ class _AddTaskBottomSheetState extends State<AddTaskBottomSheet> {
   var formkey = GlobalKey<FormState>();
   var titleController = TextEditingController();
   var descreptionController = TextEditingController();
+  late AppProvider provider;
 
   @override
   Widget build(BuildContext context) {
+    provider = Provider.of(context);
     return Container(
+      color: provider.isDarkMode() ? MyTheme.backgrounddark : Colors.white,
       height: MediaQuery.of(context).size.height * .7,
       padding: EdgeInsets.all(15),
       child: Form(
@@ -25,7 +33,9 @@ class _AddTaskBottomSheetState extends State<AddTaskBottomSheet> {
             Text(
               'Add New Task',
               style: Theme.of(context).textTheme.titleLarge?.copyWith(
-                    color: Theme.of(context).primaryColor,
+                    color: provider.isDarkMode()
+                        ? Colors.white
+                        : MyTheme.primarylight,
                   ),
               textAlign: TextAlign.center,
             ),
@@ -43,10 +53,11 @@ class _AddTaskBottomSheetState extends State<AddTaskBottomSheet> {
               },
               decoration: InputDecoration(
                 label: Text('Title',
-                    style: Theme.of(context)
-                        .textTheme
-                        .titleLarge
-                        ?.copyWith(fontSize: 20)),
+                    style: Theme.of(context).textTheme.titleLarge?.copyWith(
+                        color: provider.isDarkMode()
+                            ? Colors.white
+                            : MyTheme.primarylight,
+                        fontSize: 20)),
               ),
             ),
 
@@ -66,27 +77,28 @@ class _AddTaskBottomSheetState extends State<AddTaskBottomSheet> {
               minLines: 4,
               decoration: InputDecoration(
                 label: Text('Descrebtion',
-                    style: Theme.of(context)
-                        .textTheme
-                        .titleLarge
-                        ?.copyWith(fontSize: 20)),
+                    style: Theme.of(context).textTheme.titleLarge?.copyWith(
+                        color: provider.isDarkMode()
+                            ? Colors.white
+                            : MyTheme.primarylight,
+                        fontSize: 20)),
               ),
             ),
-            SizedBox(
+            const SizedBox(
               height: 15,
             ),
             Text(
               'Select Date',
-              style: Theme.of(context)
-                  .textTheme
-                  .titleLarge
-                  ?.copyWith(color: Theme.of(context).primaryColor),
+              style: Theme.of(context).textTheme.titleLarge?.copyWith(
+                  color: provider.isDarkMode()
+                      ? Colors.white
+                      : MyTheme.primarylight),
             ),
-            SizedBox(
+            const SizedBox(
               height: 15,
             ),
             Container(
-              margin: EdgeInsets.only(right: 250),
+              margin: const EdgeInsets.only(right: 250),
               decoration: BoxDecoration(
                   border: Border.all(
                       width: 2, color: Theme.of(context).primaryColor)),
@@ -97,10 +109,13 @@ class _AddTaskBottomSheetState extends State<AddTaskBottomSheet> {
                 child: Text(
                     ' ${selectedDate.year}/${selectedDate.month}/${selectedDate.day}',
                     textAlign: TextAlign.center,
-                    style: Theme.of(context).textTheme.titleLarge),
+                    style: Theme.of(context)
+                        .textTheme
+                        .titleLarge
+                        ?.copyWith(color: Color(0xFFA9A9A9))),
               ),
             ),
-            SizedBox(
+            const SizedBox(
               height: 65,
             ),
             Padding(
@@ -113,10 +128,10 @@ class _AddTaskBottomSheetState extends State<AddTaskBottomSheet> {
                 onPressed: () {
                   addTask();
                 },
-                child: Text('Add'),
+                child: const Text('Add'),
               ),
             ),
-            SizedBox(
+            const SizedBox(
               height: 15,
             )
           ],
@@ -132,15 +147,17 @@ class _AddTaskBottomSheetState extends State<AddTaskBottomSheet> {
         context: context,
         initialDate: selectedDate,
         firstDate: DateTime.now(),
-        lastDate: DateTime.now().add(Duration(days: 365)));
+        lastDate: DateTime.now().add(const Duration(days: 365)));
     if (date != null) {
       setState(() {
-        selectedDate = date!;
+        selectedDate = date;
       });
     }
   }
 
   void addTask() {
+    var provider = Provider.of<AppProvider>(context, listen: false);
+
     if (formkey.currentState?.validate() == true) {
       String title = titleController.text;
       String desc = descreptionController.text;
@@ -149,9 +166,28 @@ class _AddTaskBottomSheetState extends State<AddTaskBottomSheet> {
           // we create object from data class with data from our page here
           title: title, // to pass it to insert func
           descrebtion: desc,
-          dateTime: selectedDate,
+          dateTime: dateOnly(selectedDate),
           isDone: false);
-      MyDatabase.insertTask(task);
+      showLoading(context, 'Loading....', isCancelabele: false);
+      MyDatabase.insertTask(task).then((value) {
+        provider.retrieveTasks();
+
+        hideLoading(context);
+        showMessage(context, 'Task Added Successfully',
+            positiveActionName: 'ok', posAction: () {
+          Navigator.pop(context);
+        });
+      }).onError((error, stackTrace) {
+        hideLoading(context);
+        showMessage(context, 'Faild Adding Task', negativeActionName: 'ok',
+            negAction: () {
+          Navigator.pop(context);
+        });
+      }).timeout(const Duration(seconds: 5), onTimeout: () {
+        hideLoading(context);
+        provider.retrieveTasks();
+        showMessage(context, 'timeout,task added in cache');
+      });
     }
   }
 }
