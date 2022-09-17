@@ -1,52 +1,68 @@
 import 'package:flutter/material.dart';
 
 class MyTheme {
-  static const Color primarylight = Color(0xFF5D9CEC);
-
-  //static const Color primarylight = Colors.lightBlueAccent;
-  // static const Color primarylight = Color(0xFF89CFF0);
-  //static const Color primarylight = Color(0xFF77C3EC);
-
+  static const Color primarylight = Colors.blue;
   static const Color primarydark = Color(0xFF5D9CEC);
+
   static const Color backgroundlight = Color(0xFFDFECDB);
   static const Color backgrounddark = Color(0xFF060E1E);
+  static const Color green = Color(0xFF61E757);
 
   static final lightTheme = ThemeData(
-      // make object from themedata
-
       primaryColor: primarylight,
       scaffoldBackgroundColor: backgroundlight,
-      // scaffoldBackgroundColor: primarylight,
-      appBarTheme: AppBarTheme(
+      appBarTheme: const AppBarTheme(
           color: primarylight,
           titleTextStyle: TextStyle(fontSize: 22, fontWeight: FontWeight.bold)),
-      textTheme: TextTheme(
+      textTheme: const TextTheme(
           titleMedium: TextStyle(
             fontWeight: FontWeight.bold,
             fontSize: 24,
-            color: primarylight,
+            color: primarydark,
           ),
+          titleSmall: TextStyle(
+              fontSize: 18, color: primarydark, fontWeight: FontWeight.normal),
+          titleLarge: TextStyle(
+              //whole bottom sheet add new task
+              fontSize: 20,
+              color: Colors.black,
+              fontWeight: FontWeight.bold),
+          bodyMedium: TextStyle(
+              //whole bottom sheet add new task
+              fontSize: 24,
+              color: Colors.white,
+              fontWeight: FontWeight.bold),
           bodySmall: TextStyle(
-            fontSize: 12,
+            fontSize: 15,
             color: Colors.black,
           )));
 
   static final darkTheme = ThemeData(
       primaryColor: primarydark,
-      scaffoldBackgroundColor: Colors.white,
-
-      //   scaffoldBackgroundColor: backgrounddark,
-      appBarTheme: AppBarTheme(
-          color: Colors.brown,
+      scaffoldBackgroundColor: backgrounddark,
+      appBarTheme: const AppBarTheme(
+          color: primarydark,
           titleTextStyle: TextStyle(fontSize: 22, fontWeight: FontWeight.bold)),
-      textTheme: TextTheme(
-          bodyText1: TextStyle(
+      textTheme: const TextTheme(
+          titleMedium: TextStyle(
             fontWeight: FontWeight.bold,
             fontSize: 24,
-            color: primarylight,
+            color: primarydark,
           ),
-          bodyText2: TextStyle(
-            fontSize: 12,
-            color: primarylight,
+          titleSmall: TextStyle(
+              fontSize: 18, color: primarydark, fontWeight: FontWeight.normal),
+          bodyMedium: TextStyle(
+              //whole bottom sheet add new task
+              fontSize: 24,
+              color: backgrounddark,
+              fontWeight: FontWeight.bold),
+          titleLarge: TextStyle(
+              //whole bottom sheet add new task
+              fontSize: 20,
+              color: Colors.black,
+              fontWeight: FontWeight.bold),
+          bodySmall: TextStyle(
+            fontSize: 15,
+            color: Colors.white,
           )));
 }
