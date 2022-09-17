@@ -1,51 +1,64 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import 'package:todo_app/provider/app_provider.dart';
 
-class LangSheetBottom extends StatelessWidget {
+class LangSheetBottom extends StatefulWidget {
+  @override
+  State<LangSheetBottom> createState() => _LangSheetBottomState();
+}
+
+class _LangSheetBottomState extends State<LangSheetBottom> {
   @override
   Widget build(BuildContext context) {
-    return Column(
+    var provider = Provider.of<AppProvider>(context);
+    return Container(
+      padding: EdgeInsets.all(7),
+      child: Column(
+        children: [
+          InkWell(
+              onTap: () {
+                provider.changeLang('en');
+                Navigator.pop(context);
+              },
+              child: provider.currentLang == 'en'
+                  ? getSelectedRow('English')
+                  : getUnSelectedRow('English')),
+          InkWell(
+              onTap: () {
+                provider.changeLang('ar');
+              },
+              child: provider.currentLang == 'ar'
+                  ? getSelectedRow('العربية')
+                  : getUnSelectedRow('العربية'))
+        ],
+      ),
+    );
+  }
+
+  getSelectedRow(String text) {
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
-        Container(
-          margin: EdgeInsets.all(9),
-          width: double.infinity,
-          height: 55,
-          padding: EdgeInsets.all(10),
-          decoration: BoxDecoration(
-              border:
-                  Border.all(width: 2, color: Theme.of(context).primaryColor)),
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              Text('English', style: Theme.of(context).textTheme.titleSmall),
-              Icon(
-                Icons.check,
-                color: Theme.of(context).primaryColor,
-              )
-            ],
-          ),
+        Text(
+          text,
+          style: Theme.of(context).textTheme.titleSmall?.copyWith(fontSize: 20),
         ),
-        Container(
-          margin: EdgeInsets.all(9),
-          width: double.infinity,
-          height: 55,
-          padding: EdgeInsets.all(10),
-          decoration: BoxDecoration(
-              border:
-                  Border.all(width: 2, color: Theme.of(context).primaryColor)),
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              Text(
-                'العربية',
-                style: Theme.of(context).textTheme.titleSmall,
-              ),
-              Icon(
-                Icons.check,
-                color: Theme.of(context).primaryColor,
-              )
-            ],
-          ),
+        Icon(
+          Icons.check,
+          color: Theme.of(context).primaryColor,
         )
+      ],
+    );
+  }
+
+  getUnSelectedRow(String text) {
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+      children: [
+        Text(
+          text,
+          style: Theme.of(context).textTheme.titleSmall?.copyWith(fontSize: 20),
+        ),
       ],
     );
   }

@@ -1,4 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:provider/provider.dart';
+import 'package:todo_app/provider/app_provider.dart';
 import 'package:todo_app/settings/theme_sheet_bottom.dart';
 
 import 'lang_sheet_bottom.dart';
@@ -6,17 +9,18 @@ import 'lang_sheet_bottom.dart';
 class SettingsTab extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
+    var provider = Provider.of<AppProvider>(context);
     return Container(
       padding: const EdgeInsets.all(40),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Text(
-            'Language',
+            AppLocalizations.of(context)!.language,
             style: Theme.of(context)
                 .textTheme
                 .bodySmall!
-                .copyWith(fontSize: 16, fontWeight: FontWeight.bold),
+                .copyWith(fontSize: 18, fontWeight: FontWeight.bold),
           ),
           InkWell(
             onTap: () {
@@ -28,23 +32,27 @@ class SettingsTab extends StatelessWidget {
               width: 319,
               height: 50,
               decoration: BoxDecoration(
-                  color: Colors.white,
-                  border: Border.all(
-                      width: 1, color: Theme.of(context).primaryColor)),
+                border:
+                    Border.all(color: Theme.of(context).primaryColor, width: 1),
+                borderRadius: BorderRadius.circular(8),
+                color: Colors.white,
+              ),
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   Text(
-                    'English',
+                    provider.currentLang == 'en'
+                        ? AppLocalizations.of(context)!.en
+                        : AppLocalizations.of(context)!.ar,
                     style: Theme.of(context)
                         .textTheme
                         .titleMedium!
                         .copyWith(fontSize: 16, fontWeight: FontWeight.normal),
                   ),
-                  const Icon(
+                  Icon(
                     Icons.arrow_drop_down,
                     size: 26,
-                    color: Color(0xFF5D9CEC),
+                    color: Theme.of(context).primaryColor,
                   )
                 ],
               ),
@@ -54,11 +62,11 @@ class SettingsTab extends StatelessWidget {
             height: 50,
           ),
           Text(
-            'Theme',
+            AppLocalizations.of(context)!.theme,
             style: Theme.of(context)
                 .textTheme
                 .bodySmall!
-                .copyWith(fontSize: 16, fontWeight: FontWeight.bold),
+                .copyWith(fontSize: 18, fontWeight: FontWeight.bold),
           ),
           InkWell(
             onTap: () {
@@ -70,23 +78,27 @@ class SettingsTab extends StatelessWidget {
               width: 319,
               height: 50,
               decoration: BoxDecoration(
-                  color: Colors.white,
-                  border: Border.all(
-                      width: 1, color: Theme.of(context).primaryColor)),
+                border:
+                    Border.all(color: Theme.of(context).primaryColor, width: 1),
+                borderRadius: BorderRadius.circular(8),
+                color: Colors.white,
+              ),
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   Text(
-                    'Light',
+                    provider.currentTheme == ThemeMode.light
+                        ? AppLocalizations.of(context)!.light
+                        : AppLocalizations.of(context)!.dark,
                     style: Theme.of(context)
                         .textTheme
                         .titleMedium!
                         .copyWith(fontSize: 16, fontWeight: FontWeight.normal),
                   ),
-                  const Icon(
+                  Icon(
                     Icons.arrow_drop_down,
                     size: 26,
-                    color: Color(0xFF5D9CEC),
+                    color: Theme.of(context).primaryColor,
                   )
                 ],
               ),
@@ -99,6 +111,7 @@ class SettingsTab extends StatelessWidget {
 
   void openLangBottomSheet(context) {
     showModalBottomSheet(
+        backgroundColor: Theme.of(context).scaffoldBackgroundColor,
         context: context,
         builder: (buildcontext) {
           return LangSheetBottom();
@@ -107,6 +120,7 @@ class SettingsTab extends StatelessWidget {
 
   void openThemeBottomSheet(context) {
     showModalBottomSheet(
+        backgroundColor: Theme.of(context).scaffoldBackgroundColor,
         context: context,
         builder: (buildcontext) {
           return ThemeSheetBottom();
